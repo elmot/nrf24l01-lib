@@ -1,0 +1,94 @@
+Configuration	demo-stm32l432-transmitter
+STM32CubeMX 	5.0.0
+Date	12/25/2018
+MCU	STM32L432KCUx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+RCC	BYPASS Clock Source	RCC_CK_IN	PA0
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN (PC14)
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT (PC15)
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14 (JTCK-SWCLK)
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13 (JTMS-SWDIO)
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART2	Asynchronous	USART2_RX	PA15 (JTDI)
+USART2	Asynchronous	USART2_TX	PA2
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC14-OSC32_IN (PC14)	RCC_OSC32_IN	
+3	PC15-OSC32_OUT (PC15)	RCC_OSC32_OUT	
+6	PA0	RCC_CK_IN	MCO [High speed clock in]
+8	PA2	USART2_TX	VCP_TX
+9	PA3	GPIO_Output	CE
+10	PA4	GPIO_Output	CSN
+11	PA5	SPI1_SCK	
+12	PA6	SPI1_MISO	
+13	PA7	SPI1_MOSI	
+14	PB0	GPIO_EXTI0	NRF_IRQ
+23	PA13 (JTMS-SWDIO)	SYS_JTMS-SWDIO	SWDIO
+24	PA14 (JTCK-SWCLK)	SYS_JTCK-SWCLK	SWCLK
+25	PA15 (JTDI)	USART2_RX	VCP_RX
+26	PB3 (JTDO-TRACESWO)	GPIO_Output	LD3 [Green]
+PERIPHERALS	MODES	FUNCTIONS	PINS
+RCC	BYPASS Clock Source	RCC_CK_IN	PA0
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN (PC14)
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT (PC15)
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14 (JTCK-SWCLK)
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13 (JTMS-SWDIO)
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART2	Asynchronous	USART2_RX	PA15 (JTDI)
+USART2	Asynchronous	USART2_TX	PA2
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC14-OSC32_IN (PC14)	RCC_OSC32_IN	
+3	PC15-OSC32_OUT (PC15)	RCC_OSC32_OUT	
+6	PA0	RCC_CK_IN	MCO [High speed clock in]
+8	PA2	USART2_TX	VCP_TX
+9	PA3	GPIO_Output	CE
+10	PA4	GPIO_Output	CSN
+11	PA5	SPI1_SCK	
+12	PA6	SPI1_MISO	
+13	PA7	SPI1_MOSI	
+14	PB0	GPIO_EXTI0	NRF_IRQ
+23	PA13 (JTMS-SWDIO)	SYS_JTMS-SWDIO	SWDIO
+24	PA14 (JTCK-SWCLK)	SYS_JTCK-SWCLK	SWCLK
+25	PA15 (JTDI)	USART2_RX	VCP_RX
+26	PB3 (JTDO-TRACESWO)	GPIO_Output	LD3 [Green]
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : demo-stm32l432-transmitter
+Project Folder : C:\work\stm\nrf24l01-lib\demo-stm32l432-transmitter
+Toolchain / IDE : SW4STM32
+Firmware Package Name and Version : STM32Cube FW_L4 V1.13.0
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+

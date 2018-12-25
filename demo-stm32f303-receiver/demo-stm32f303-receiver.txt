@@ -1,0 +1,100 @@
+Configuration	demo-stm32f303-receiver
+STM32CubeMX 	5.0.0
+Date	12/25/2018
+MCU	STM32F303RETx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+RCC	BYPASS Clock Source	RCC_OSC_IN	PF0-OSC_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT
+SPI3	Full-Duplex Master	SPI3_MISO	PC11
+SPI3	Full-Duplex Master	SPI3_MOSI	PC12
+SPI3	Full-Duplex Master	SPI3_SCK	PC10
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART2	Asynchronous	USART2_RX	PA3
+USART2	Asynchronous	USART2_TX	PA2
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13	GPIO_EXTI13	B1 [Blue PushButton]
+3	PC14-OSC32_IN	RCC_OSC32_IN	
+4	PC15-OSC32_OUT	RCC_OSC32_OUT	
+5	PF0-OSC_IN	RCC_OSC_IN	
+6	PF1-OSC_OUT*	RCC_OSC_OUT	
+8	PC0	GPIO_Output	CE
+9	PC1	GPIO_Output	CSN
+10	PC2	GPIO_EXTI2	NRF_IRQ
+16	PA2	USART2_TX	USART_TX
+17	PA3	USART2_RX	USART_RX
+21	PA5	GPIO_Output	LD2 [Green Led]
+46	PA13	SYS_JTMS-SWDIO	TMS
+49	PA14	SYS_JTCK-SWCLK	TCK
+51	PC10	SPI3_SCK	
+52	PC11	SPI3_MISO	
+53	PC12	SPI3_MOSI	
+55	PB3*	SYS_JTDO-TRACESWO	
+PERIPHERALS	MODES	FUNCTIONS	PINS
+RCC	BYPASS Clock Source	RCC_OSC_IN	PF0-OSC_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_IN	PC14-OSC32_IN
+RCC	Crystal/Ceramic Resonator	RCC_OSC32_OUT	PC15-OSC32_OUT
+SPI3	Full-Duplex Master	SPI3_MISO	PC11
+SPI3	Full-Duplex Master	SPI3_MOSI	PC12
+SPI3	Full-Duplex Master	SPI3_SCK	PC10
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART2	Asynchronous	USART2_RX	PA3
+USART2	Asynchronous	USART2_TX	PA2
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13	GPIO_EXTI13	B1 [Blue PushButton]
+3	PC14-OSC32_IN	RCC_OSC32_IN	
+4	PC15-OSC32_OUT	RCC_OSC32_OUT	
+5	PF0-OSC_IN	RCC_OSC_IN	
+6	PF1-OSC_OUT*	RCC_OSC_OUT	
+8	PC0	GPIO_Output	CE
+9	PC1	GPIO_Output	CSN
+10	PC2	GPIO_EXTI2	NRF_IRQ
+16	PA2	USART2_TX	USART_TX
+17	PA3	USART2_RX	USART_RX
+21	PA5	GPIO_Output	LD2 [Green Led]
+46	PA13	SYS_JTMS-SWDIO	TMS
+49	PA14	SYS_JTCK-SWCLK	TCK
+51	PC10	SPI3_SCK	
+52	PC11	SPI3_MISO	
+53	PC12	SPI3_MOSI	
+55	PB3*	SYS_JTDO-TRACESWO	
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : demo-stm32f303-receiver
+Project Folder : C:\work\stm\nrf24l01-lib\demo-stm32f303-receiver
+Toolchain / IDE : SW4STM32
+Firmware Package Name and Version : STM32Cube FW_F3 V1.10.0
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+
