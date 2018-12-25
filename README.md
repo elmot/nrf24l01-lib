@@ -18,7 +18,7 @@ Improvements
  - [demo-stm32f303-receiver/Core/Inc/support.h](demo-stm32f303-receiver/Core/Inc/support.h) - all hardware-dependent code (nucleo-f303re)
  - [demo-stm32f303-receiver/Core/Src/radio_demo.c](demo-stm32f303-receiver/Core/Src/radio_demo.c) - demo code(receiver)
  
- [NUCLEO-303RE](demo-stm32f303-receiver/demo-stm32f303-receiver.pdf) Pinout
+ Receiver: [NUCLEO-303RE](demo-stm32f303-receiver/demo-stm32f303-receiver.pdf)
 --
 | MCU Pin | Function | NRF Pin |
 |-----|----------|--------|
@@ -29,7 +29,7 @@ Improvements
 |PC11|	SPI3_MISO	|MISO|
 |PC12|	SPI3_MOSI	|MOSI|
 
-[NUCLEO32-432KC](demo-stm32l432-transmitter/demo-stm32l432-transmitter.pdf) Pinout
+Transmitter: [NUCLEO32-432KC](demo-stm32l432-transmitter/demo-stm32l432-transmitter.pdf)
 --
 | MCU Pin | Function | NRF Pin |
 |-----|----------|--------|
