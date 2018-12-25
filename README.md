@@ -18,6 +18,8 @@ Improvements
  - [demo-stm32f303-receiver/Core/Inc/support.h](demo-stm32f303-receiver/Core/Inc/support.h) - all hardware-dependent code (nucleo-f303re)
  - [demo-stm32f303-receiver/Core/Src/radio_demo.c](demo-stm32f303-receiver/Core/Src/radio_demo.c) - demo code(receiver)
  
+ ![2 boards](2boards.jpg)
+  
  Receiver: [NUCLEO-303RE](demo-stm32f303-receiver/demo-stm32f303-receiver.pdf)
 --
 | MCU Pin | Function | NRF Pin |
