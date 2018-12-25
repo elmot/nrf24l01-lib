@@ -1,7 +1,11 @@
-# nrf24l01-stm32F303
-Demo project for NRF24L01 + STM32 NUCLEO-F303RE board.
+# nrf24l01 library
+
+Demo project for NRF24L01 + STM32 NUCLEO boards.
 
 Based on https://github.com/LonelyWolf/stm32/tree/master/nrf24l01
+
+NUCLEO32-L432KC operates as a transmitter, NUCLEO32-F303RE as a receiver.
+Both ones log their activity via onboard UART at 115.2 kbps
 
 Improvements
 --
