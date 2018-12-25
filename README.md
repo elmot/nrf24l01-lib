@@ -1,4 +1,4 @@
-# nrf24l01 library
+# nrf24l01 host-independent library
 
 Demo project for NRF24L01 + STM32 NUCLEO boards.
 
