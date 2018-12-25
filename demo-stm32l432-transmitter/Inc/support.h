@@ -2,8 +2,8 @@
 // Created by ilia.motornyi on 13-Dec-18.
 //
 
-#ifndef L4_NRF24L01_V2_SUPPORT_H
-#define L4_NRF24L01_V2_SUPPORT_H
+#ifndef __SUPPORT_H
+#define __SUPPORT_H
 
 #include "main.h"
 
@@ -39,4 +39,4 @@ static inline uint8_t nRF24_LL_RW(uint8_t data) {
 
 static inline void Delay_ms(uint32_t ms) { HAL_Delay(ms); }
 
-#endif //L4_NRF24L01_V2_SUPPORT_H
+#endif //__SUPPORT_H
