@@ -46,6 +46,10 @@
 
 /* USER CODE END Includes */
 
+#include "stm32f3xx.h"
+#include "stm32f3xx_ll_system.h"
+#include "stm32f3xx_ll_gpio.h"
+#include "stm32f3xx_ll_exti.h"
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 

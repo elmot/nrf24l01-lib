@@ -1,11 +1,12 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    stm32l4xx_it.h
-  * @brief   This file contains the headers of the interrupt handlers.
+  * @file    stm32l4xx_ll_pwr.c
+  * @author  MCD Application Team
+  * @brief   PWR LL module driver.
   ******************************************************************************
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -31,59 +32,70 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
+#if defined(USE_FULL_LL_DRIVER)
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32L4xx_IT_H
-#define __STM32L4xx_IT_H
+/* Includes ------------------------------------------------------------------*/
+#include "stm32l4xx_ll_pwr.h"
+#include "stm32l4xx_ll_bus.h"
 
-#ifdef __cplusplus
- extern "C" {
-#endif 
+/** @addtogroup STM32L4xx_LL_Driver
+  * @{
+  */
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+#if defined(PWR)
 
-/* USER CODE END Includes */
+/** @defgroup PWR_LL PWR
+  * @{
+  */
 
-#include "stm32l4xx.h"
-#include "stm32l4xx_ll_system.h"
-#include "stm32l4xx_ll_gpio.h"
-#include "stm32l4xx_ll_exti.h"
-/* Exported types ------------------------------------------------------------*/
-/* USER CODE BEGIN ET */
+/* Private types -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private constants ---------------------------------------------------------*/
+/* Private macros ------------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
 
-/* USER CODE END ET */
+/* Exported functions --------------------------------------------------------*/
+/** @addtogroup PWR_LL_Exported_Functions
+  * @{
+  */
 
-/* Exported constants --------------------------------------------------------*/
-/* USER CODE BEGIN EC */
+/** @addtogroup PWR_LL_EF_Init
+  * @{
+  */
 
-/* USER CODE END EC */
+/**
+  * @brief  De-initialize the PWR registers to their default reset values.
+  * @retval An ErrorStatus enumeration value:
+  *          - SUCCESS: PWR registers are de-initialized
+  *          - ERROR: not applicable
+  */
+ErrorStatus LL_PWR_DeInit(void)
+{
+  /* Force reset of PWR clock */
+  LL_APB1_GRP1_ForceReset(LL_APB1_GRP1_PERIPH_PWR);
 
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
+  /* Release reset of PWR clock */
+  LL_APB1_GRP1_ReleaseReset(LL_APB1_GRP1_PERIPH_PWR);
 
-/* USER CODE END EM */
-
-/* Exported functions prototypes ---------------------------------------------*/
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void MemManage_Handler(void);
-void BusFault_Handler(void);
-void UsageFault_Handler(void);
-void SVC_Handler(void);
-void DebugMon_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void EXTI0_IRQHandler(void);
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
-
-#ifdef __cplusplus
+  return SUCCESS;
 }
-#endif
 
-#endif /* __STM32L4xx_IT_H */
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+#endif /* defined(PWR) */
+/**
+  * @}
+  */
+
+#endif /* USE_FULL_LL_DRIVER */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

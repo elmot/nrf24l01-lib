@@ -7,36 +7,36 @@
 
 #include "main.h"
 
-extern SPI_HandleTypeDef hspi3;
-
-
+#define NRF_SPI SPI3
 static inline void nRF24_CE_L() {
-    HAL_GPIO_WritePin(CE_GPIO_Port, CE_Pin, GPIO_PIN_RESET);
+    LL_GPIO_ResetOutputPin(CE_GPIO_Port, CE_Pin);
 }
 
 static inline void nRF24_CE_H() {
-    HAL_GPIO_WritePin(CE_GPIO_Port, CE_Pin, GPIO_PIN_SET);
+    LL_GPIO_SetOutputPin(CE_GPIO_Port, CE_Pin);
 }
 
 static inline void nRF24_CSN_L() {
-    HAL_GPIO_WritePin(CSN_GPIO_Port, CSN_Pin, GPIO_PIN_RESET);
+    LL_GPIO_ResetOutputPin(CSN_GPIO_Port, CSN_Pin);
 }
 
 static inline void nRF24_CSN_H() {
-    HAL_GPIO_WritePin(CSN_GPIO_Port, CSN_Pin, GPIO_PIN_SET);
+    LL_GPIO_SetOutputPin(CSN_GPIO_Port, CSN_Pin);
 }
-
 
 static inline uint8_t nRF24_LL_RW(uint8_t data) {
+
+    LL_SPI_SetRxFIFOThreshold(NRF_SPI,LL_SPI_RX_FIFO_TH_QUARTER);
+    LL_SPI_Enable(NRF_SPI);
     // Wait until TX buffer is empty
-    uint8_t result;
-    if(HAL_SPI_TransmitReceive(&hspi3,&data,&result,1,2000)!=HAL_OK) {
-        Error_Handler();
-    };
-    return result;
+    while (LL_SPI_IsActiveFlag_BSY(NRF_SPI));
+    while (!LL_SPI_IsActiveFlag_TXE(NRF_SPI));
+    LL_SPI_TransmitData8(NRF_SPI, data);
+    while (!LL_SPI_IsActiveFlag_RXNE(NRF_SPI));
+    return LL_SPI_ReceiveData8(NRF_SPI);
 }
 
 
-static inline void Delay_ms(uint32_t ms) { HAL_Delay(ms); }
+static inline void Delay_ms(uint32_t ms) { LL_mDelay(ms); }
 
 #endif //__SUPPORT_H

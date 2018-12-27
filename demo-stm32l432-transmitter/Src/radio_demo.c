@@ -6,16 +6,19 @@
 //
 // Buffer to store a payload of maximum width
 
-extern UART_HandleTypeDef huart2;
 
 #define HEX_CHARS      "0123456789ABCDEF"
 
-void UART_SendStr(char *string) {
-	HAL_UART_Transmit(&huart2, (uint8_t *) string, (uint16_t) strlen(string), 200);
+void UART_SendChar(char b) {
+	while(!LL_USART_IsActiveFlag_TXE(USART2)){};
+	LL_USART_TransmitData8(USART2, (uint8_t) b);
 }
 
-void UART_SendChar(char b) {
-	HAL_UART_Transmit(&huart2, (uint8_t *) &b, 1, 200);
+void UART_SendStr(char *string) {
+	for(;(*string) != 0;string++)
+	{
+		UART_SendChar(* string);
+	}
 }
 
 void UART_SendBufHex(char *buf, uint16_t bufsize) {
@@ -162,10 +165,16 @@ int runRadio(void) {
 
 	// Configure the nRF24L01+
 	UART_SendStr("nRF24L01+ check: ");
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
 	if (!nRF24_Check()) {
 		UART_SendStr("FAIL\r\n");
-		while (1);
+		while (1){
+			LL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+			Delay_ms(50);
+		};
 	}
+#pragma clang diagnostic pop
 	UART_SendStr("OK\r\n");
 
 	// Initialize the nRF24L01 to its default state
@@ -782,10 +791,12 @@ int runRadio(void) {
     // The main loop
     payload_length = 10;
     j = 0;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
     while (1) {
     	// Prepare data packet
     	for (i = 0; i < payload_length; i++) {
-    		nRF24_payload[i] = j++;
+    		nRF24_payload[i] = (uint8_t) j++;
     		if (j > 0x000000FF) j = 0;
     	}
 
@@ -823,7 +834,9 @@ int runRadio(void) {
 
     	// Wait ~0.5s
     	Delay_ms(500);
+    	LL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
     }
+#pragma clang diagnostic pop
 
 
 #endif // DEMO_TX_SINGLE_ESB
