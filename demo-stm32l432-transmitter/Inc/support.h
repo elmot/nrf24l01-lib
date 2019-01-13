@@ -11,19 +11,19 @@
 
 
 static inline void nRF24_CE_L() {
-    LL_GPIO_ResetOutputPin(CE_GPIO_Port, CE_Pin);
+    LL_GPIO_ResetOutputPin(NRF_CE_GPIO_Port, NRF_CE_Pin);
 }
 
 static inline void nRF24_CE_H() {
-    LL_GPIO_SetOutputPin(CE_GPIO_Port, CE_Pin);
+    LL_GPIO_SetOutputPin(NRF_CE_GPIO_Port, NRF_CE_Pin);
 }
 
 static inline void nRF24_CSN_L() {
-    LL_GPIO_ResetOutputPin(CSN_GPIO_Port, CSN_Pin);
+    LL_GPIO_ResetOutputPin(NRF_CSN_GPIO_Port, NRF_CSN_Pin);
 }
 
 static inline void nRF24_CSN_H() {
-    LL_GPIO_SetOutputPin(CSN_GPIO_Port, CSN_Pin);
+    LL_GPIO_SetOutputPin(NRF_CSN_GPIO_Port, NRF_CSN_Pin);
 }
 
 

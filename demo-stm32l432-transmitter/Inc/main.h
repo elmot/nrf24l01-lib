@@ -98,10 +98,10 @@ void Error_Handler(void);
 #define MCO_GPIO_Port GPIOA
 #define VCP_TX_Pin LL_GPIO_PIN_2
 #define VCP_TX_GPIO_Port GPIOA
-#define CE_Pin LL_GPIO_PIN_3
-#define CE_GPIO_Port GPIOA
-#define CSN_Pin LL_GPIO_PIN_4
-#define CSN_GPIO_Port GPIOA
+#define NRF_CE_Pin LL_GPIO_PIN_3
+#define NRF_CE_GPIO_Port GPIOA
+#define NRF_CSN_Pin LL_GPIO_PIN_4
+#define NRF_CSN_GPIO_Port GPIOA
 #define NRF_IRQ_Pin LL_GPIO_PIN_0
 #define NRF_IRQ_GPIO_Port GPIOB
 #define NRF_IRQ_EXTI_IRQn EXTI0_IRQn

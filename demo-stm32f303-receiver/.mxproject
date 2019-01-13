@@ -1,19 +1,17 @@
 [PreviousGenFiles]
 AdvancedFolderStructure=true
 HeaderFileListSize=3
-HeaderFiles#0=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/stm32f3xx_it.h
-HeaderFiles#1=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/stm32_assert.h
-HeaderFiles#2=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/main.h
+HeaderFiles#0=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/stm32f3xx_it.h
+HeaderFiles#1=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/stm32_assert.h
+HeaderFiles#2=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc/main.h
 HeaderFolderListSize=1
-HeaderPath#0=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc
+HeaderPath#0=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Inc
 SourceFileListSize=2
-SourceFiles#0=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Src/stm32f3xx_it.c
-SourceFiles#1=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Src/main.c
+SourceFiles#0=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Src/stm32f3xx_it.c
+SourceFiles#1=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Src/main.c
 SourceFiles#2=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Src/main.c
 SourceFolderListSize=1
-SourcePath#0=C:/work/stm/nrf24l01-lib/demo-stm32f303-receiver/Core/Src
-HeaderFiles=;
-SourceFiles=;
+SourcePath#0=D:/projects/nrf24l01-lib/demo-stm32f303-receiver/Core/Src
 
 [PreviousLibFiles]
 LibFiles=Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_system.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_spi.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usart.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_rcc.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_bus.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_cortex.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_crs.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_exti.h;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.c;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_spi.c;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.c;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usart.c;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.c;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_system.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_spi.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usart.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_rcc.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_bus.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_cortex.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_crs.h;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_exti.h;Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c;Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h;Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h;Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h;Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h;Drivers/CMSIS/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c;Drivers/CMSIS/Include/arm_common_tables.h;Drivers/CMSIS/Include/arm_const_structs.h;Drivers/CMSIS/Include/arm_math.h;Drivers/CMSIS/Include/cmsis_armcc.h;Drivers/CMSIS/Include/cmsis_armcc_V6.h;Drivers/CMSIS/Include/cmsis_gcc.h;Drivers/CMSIS/Include/core_cm0.h;Drivers/CMSIS/Include/core_cm0plus.h;Drivers/CMSIS/Include/core_cm3.h;Drivers/CMSIS/Include/core_cm4.h;Drivers/CMSIS/Include/core_cm7.h;Drivers/CMSIS/Include/core_cmFunc.h;Drivers/CMSIS/Include/core_cmInstr.h;Drivers/CMSIS/Include/core_cmSimd.h;Drivers/CMSIS/Include/core_sc000.h;Drivers/CMSIS/Include/core_sc300.h;

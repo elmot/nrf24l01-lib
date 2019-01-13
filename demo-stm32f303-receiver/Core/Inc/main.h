@@ -95,10 +95,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin LL_GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
-#define CE_Pin LL_GPIO_PIN_0
-#define CE_GPIO_Port GPIOC
-#define CSN_Pin LL_GPIO_PIN_1
-#define CSN_GPIO_Port GPIOC
+#define NRF_CE_Pin LL_GPIO_PIN_0
+#define NRF_CE_GPIO_Port GPIOC
+#define NRF_CSN_Pin LL_GPIO_PIN_1
+#define NRF_CSN_GPIO_Port GPIOC
 #define NRF_IRQ_Pin LL_GPIO_PIN_2
 #define NRF_IRQ_GPIO_Port GPIOC
 #define USART_TX_Pin LL_GPIO_PIN_2

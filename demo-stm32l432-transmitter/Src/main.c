@@ -321,16 +321,16 @@ static void MX_GPIO_Init(void)
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(CE_GPIO_Port, CE_Pin);
+  LL_GPIO_ResetOutputPin(NRF_CE_GPIO_Port, NRF_CE_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(LD3_GPIO_Port, LD3_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(CSN_GPIO_Port, CSN_Pin);
+  LL_GPIO_SetOutputPin(NRF_CSN_GPIO_Port, NRF_CSN_Pin);
 
   /**/
-  GPIO_InitStruct.Pin = CE_Pin|CSN_Pin;
+  GPIO_InitStruct.Pin = NRF_CE_Pin|NRF_CSN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
