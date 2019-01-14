@@ -1,8 +1,6 @@
 // Functions to manage the nRF24L01+ transceiver
 
-
 #include "nrf24.h"
-
 
 // Read a register
 // input:
@@ -152,6 +150,21 @@ void nRF24_SetOperationalMode(uint8_t mode) {
 	reg &= ~nRF24_CONFIG_PRIM_RX;
 	reg |= (mode & nRF24_CONFIG_PRIM_RX);
 	nRF24_WriteReg(nRF24_REG_CONFIG, reg);
+}
+
+// Set transceiver DynamicPayloadLength feature for all the pipes
+// input:
+//   mode - status, one of nRF24_DPL_xx values
+void nRF24_SetDynamicPayloadLength(uint8_t mode) {
+	uint8_t reg;
+	reg  = nRF24_ReadReg(nRF24_REG_FEATURE);
+	if(mode) {
+		nRF24_WriteReg(nRF24_REG_FEATURE, reg | nRF24_FEATURE_EN_DPL);
+		nRF24_WriteReg(nRF24_REG_DYNPD, 0x1F);
+	} else {
+		nRF24_WriteReg(nRF24_REG_FEATURE, reg &~ nRF24_FEATURE_EN_DPL);
+		nRF24_WriteReg(nRF24_REG_DYNPD, 0x0);
+	}
 }
 
 // Configure transceiver CRC scheme
@@ -406,14 +419,19 @@ void nRF24_WritePayload(uint8_t *pBuf, uint8_t length) {
 	nRF24_WriteMBReg(nRF24_CMD_W_TX_PAYLOAD, pBuf, length);
 }
 
-// Read top level payload available in the RX FIFO
-// input:
-//   pBuf - pointer to the buffer to store a payload data
-//   length - pointer to variable to store a payload length
-// return: one of nRF24_RX_xx values
-//   nRF24_RX_PIPEX - packet has been received from the pipe number X
-//   nRF24_RX_EMPTY - the RX FIFO is empty
-nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
+static uint8_t nRF24_GetRxDplPayloadWidth() {
+	uint8_t value;
+
+	nRF24_CSN_L();
+	nRF24_LL_RW(nRF24_CMD_R_RX_PL_WID);
+	value = nRF24_LL_RW(nRF24_CMD_NOP);
+	nRF24_CSN_H();
+
+	return value;
+
+}
+
+static nRF24_RXResult nRF24_ReadPayloadGeneric(uint8_t *pBuf, uint8_t *length, uint8_t dpl) {
 	uint8_t pipe;
 
 	// Extract a payload pipe number from the STATUS register
@@ -422,7 +440,15 @@ nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
 	// RX FIFO empty?
 	if (pipe < 6) {
 		// Get payload length
-		*length = nRF24_ReadReg(nRF24_RX_PW_PIPE[pipe]);
+		if(dpl) {
+			*length = nRF24_GetRxDplPayloadWidth();
+			if(*length>32) { //broken packet
+				*length = 0;
+				nRF24_FlushRX();
+			}
+		} else {
+			*length = nRF24_ReadReg(nRF24_RX_PW_PIPE[pipe]);
+		}
 
 		// Read a payload from the RX FIFO
 		if (*length) {
@@ -438,6 +464,30 @@ nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
 	return nRF24_RX_EMPTY;
 }
 
+// Read top level payload available in the RX FIFO
+// input:
+//   pBuf - pointer to the buffer to store a payload data
+//   length - pointer to variable to store a payload length
+// return: one of nRF24_RX_xx values
+//   nRF24_RX_PIPEX - packet has been received from the pipe number X
+//   nRF24_RX_EMPTY - the RX FIFO is empty
+nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
+	return nRF24_ReadPayloadGeneric(pBuf, length,0);
+}
+
+nRF24_RXResult nRF24_ReadPayloadDpl(uint8_t *pBuf, uint8_t *length) {
+	return nRF24_ReadPayloadGeneric(pBuf, length,1);
+}
+
+uint8_t nRF24_GetFeatures() {
+    return nRF24_ReadReg(nRF24_REG_FEATURE);
+}
+void nRF24_ActivateFeatures() {
+    nRF24_CSN_L();
+    nRF24_LL_RW(nRF24_CMD_ACTIVATE);
+    nRF24_LL_RW(0x73);
+    nRF24_CSN_H();
+}
 
 /*
 

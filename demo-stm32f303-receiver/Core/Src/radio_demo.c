@@ -28,18 +28,18 @@ void Toggle_LED() {
 
 void UART_SendChar(char b) {
 
-	while(!LL_USART_IsActiveFlag_TXE(USART2)){};
-	LL_USART_TransmitData8(USART2, (uint8_t) b);
+    while (!LL_USART_IsActiveFlag_TXE(USART2)) {}
+    LL_USART_TransmitData8(USART2, (uint8_t) b);
 }
 
 void UART_SendStr(char *string) {
-	for(;(*string) != 0;string++)
-	{
-		UART_SendChar(* string);
-	}
+    for (; (*string) != 0; string++) {
+        UART_SendChar(*string);
+    }
 }
+
 void Toggle_LED() {
-	LL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+    LL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
 
 #endif
@@ -86,12 +86,14 @@ uint8_t payload_length;
 #define DEMO_RX_SOLAR       0 // Solar temperature sensor receiver
 #define DEMO_TX_SINGLE      0 // Single address transmitter (1 pipe)
 #define DEMO_TX_MULTI       0 // Multiple address transmitter (3 pipes)
-#define DEMO_RX_SINGLE_ESB  1 // Single address receiver with Enhanced ShockBurst (1 pipe)
+#define DEMO_RX_SINGLE_ESB  0 // Single address receiver with Enhanced ShockBurst (1 pipe)
 #define DEMO_TX_SINGLE_ESB  0 // Single address transmitter with Enhanced ShockBurst (1 pipe)
+#define DEMO_RX_ESB_ACK_PL  1 // Single address receiver with Enhanced ShockBurst (1 pipe) + payload sent back
+#define DEMO_TX_ESB_ACK_PL  0 // Single address transmitter with Enhanced ShockBurst (1 pipe) + payload received in ACK
 
 
 // Kinda foolproof :)
-#if ((DEMO_RX_SINGLE + DEMO_RX_MULTI + DEMO_RX_SOLAR + DEMO_TX_SINGLE + DEMO_TX_MULTI + DEMO_RX_SINGLE_ESB + DEMO_TX_SINGLE_ESB) != 1)
+#if ((DEMO_RX_SINGLE + DEMO_RX_MULTI + DEMO_RX_SOLAR + DEMO_TX_SINGLE + DEMO_TX_MULTI + DEMO_RX_SINGLE_ESB + DEMO_TX_SINGLE_ESB + DEMO_RX_ESB_ACK_PL + DEMO_TX_ESB_ACK_PL) != 1)
 #error "Define only one DEMO_xx, use the '1' value"
 #endif
 
@@ -180,12 +182,6 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 
 int runRadio(void) {
     UART_SendStr("\r\nSTM32F303RE is online.\r\n");
-
-
-
-
-    // Configure nRF24 IRQ pin
-    //todo wtf? why output?
 
     // RX/TX disabled
     nRF24_CE_L();
@@ -746,6 +742,85 @@ int runRadio(void) {
         if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) {
             // Get a payload from the transceiver
             pipe = nRF24_ReadPayload(nRF24_payload, &payload_length);
+
+            // Clear all pending IRQ flags
+            nRF24_ClearIRQFlags();
+
+            // Print a payload contents to UART
+            UART_SendStr("RCV PIPE#");
+            UART_SendInt(pipe);
+            UART_SendStr(" PAYLOAD:>");
+            Toggle_LED();
+            UART_SendBufHex((char *) nRF24_payload, payload_length);
+            UART_SendStr("<\r\n");
+        }
+    }
+#pragma clang diagnostic pop
+
+#endif // DEMO_RX_SINGLE_ESB
+
+/***************************************************************************/
+
+#if (DEMO_RX_ESB_ACK_PL)
+
+    // This is simple receiver with Enhanced ShockBurst:
+    //   - RX address: 'ESB'
+    //   - payload: 10 bytes
+    //   - RF channel: 40 (2440MHz)
+    //   - data rate: 2Mbps
+    //   - CRC scheme: 2 byte
+
+    // The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
+
+    // Set RF channel
+    nRF24_SetRFChannel(40);
+
+    // Set data rate
+    nRF24_SetDataRate(nRF24_DR_2Mbps);
+
+    // Set CRC scheme
+    nRF24_SetCRCScheme(nRF24_CRC_2byte);
+
+    // Set address width, its common for all pipes (RX and TX)
+    nRF24_SetAddrWidth(3);
+
+    // Configure RX PIPE
+    static const uint8_t nRF24_ADDR[] = {'E', 'S', 'B'};
+    nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for pipe
+    nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_ON, 10); // Auto-ACK: enabled, payload length: 10 bytes
+
+    // Set TX power for Auto-ACK (maximum, to ensure that transmitter will hear ACK reply)
+    nRF24_SetTXPower(nRF24_TXPWR_0dBm);
+
+    // Set operational mode (PRX == receiver)
+    nRF24_SetOperationalMode(nRF24_MODE_RX);
+
+    // Clear any pending IRQ flags
+    nRF24_ClearIRQFlags();
+
+    // Wake the transceiver
+    nRF24_SetPowerMode(nRF24_PWR_UP);
+
+    // Enable DPL
+    nRF24_SetDynamicPayloadLength(nRF24_DPL_ON);
+
+    // Put the transceiver to the RX mode
+    nRF24_CE_H();
+
+
+    // The main loop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+    while (1) {
+        //
+        // Constantly poll the status of the RX FIFO and get a payload if FIFO is not empty
+        //
+        // This is far from best solution, but it's ok for testing purposes
+        // More smart way is to use the IRQ pin :)
+        //
+        if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) {
+            // Get a payload from the transceiver
+            pipe = nRF24_ReadPayloadDpl(nRF24_payload, &payload_length);
 
             // Clear all pending IRQ flags
             nRF24_ClearIRQFlags();
