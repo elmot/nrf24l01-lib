@@ -9,8 +9,12 @@
 // nRF24L0 instruction definitions
 #define nRF24_CMD_R_REGISTER       (uint8_t)0x00 // Register read
 #define nRF24_CMD_W_REGISTER       (uint8_t)0x20 // Register write
+#define nRF24_CMD_ACTIVATE         (uint8_t)0x50 // (De)Activates R_RX_PL_WID, W_ACK_PAYLOAD, W_TX_PAYLOAD_NOACK features
+#define nRF24_CMD_R_RX_PL_WID	   (uint8_t)0x60 // Read RX-payload width for the top R_RX_PAYLOAD in the RX FIFO.
 #define nRF24_CMD_R_RX_PAYLOAD     (uint8_t)0x61 // Read RX payload
 #define nRF24_CMD_W_TX_PAYLOAD     (uint8_t)0xA0 // Write TX payload
+#define nRF24_CMD_W_ACK_PAYLOAD    (uint8_t)0xA1 // Write ACK payload
+#define nRF24_CMD_W_TX_PAYLOAD_NOACK (uint8_t) 0xB0//Write TX payload and disable AUTOACK
 #define nRF24_CMD_FLUSH_TX         (uint8_t)0xE1 // Flush TX FIFO
 #define nRF24_CMD_FLUSH_RX         (uint8_t)0xE2 // Flush RX FIFO
 #define nRF24_CMD_REUSE_TX_PL      (uint8_t)0xE3 // Reuse TX payload
@@ -48,6 +52,9 @@
 // Register bits definitions
 #define nRF24_CONFIG_PRIM_RX       (uint8_t)0x01 // PRIM_RX bit in CONFIG register
 #define nRF24_CONFIG_PWR_UP        (uint8_t)0x02 // PWR_UP bit in CONFIG register
+#define nRF24_FEATURE_EN_DYN_ACK   (uint8_t)0x01 // EN_DYN_ACK bit in FEATURE register
+#define nRF24_FEATURE_EN_ACK_PAY   (uint8_t)0x02 // EN_ACK_PAY bit in FEATURE register
+#define nRF24_FEATURE_EN_DPL       (uint8_t)0x04 // EN_DPL bit in FEATURE register
 #define nRF24_FLAG_RX_DR           (uint8_t)0x40 // RX_DR bit (data ready RX FIFO interrupt)
 #define nRF24_FLAG_TX_DS           (uint8_t)0x20 // TX_DS bit (data sent TX FIFO interrupt)
 #define nRF24_FLAG_MAX_RT          (uint8_t)0x10 // MAX_RT bit (maximum number of TX retransmits interrupt)
@@ -126,6 +133,11 @@ enum {
 	nRF24_MODE_RX = (uint8_t)0x01, // PRX
 	nRF24_MODE_TX = (uint8_t)0x00  // PTX
 };
+
+enum {
+	nRF24_DPL_ON = (uint8_t)0x01, // PRX
+	nRF24_DPL_OFF = (uint8_t)0x00  // PTX
+} ;
 
 // Enumeration of RX pipe addresses and TX address
 enum {
@@ -211,6 +223,7 @@ void nRF24_SetRXPipe(uint8_t pipe, uint8_t aa_state, uint8_t payload_len);
 void nRF24_ClosePipe(uint8_t pipe);
 void nRF24_EnableAA(uint8_t pipe);
 void nRF24_DisableAA(uint8_t pipe);
+void nRF24_SetDynamicPayloadLength(uint8_t mode);
 
 uint8_t nRF24_GetStatus(void);
 uint8_t nRF24_GetIRQFlags(void);
@@ -218,14 +231,16 @@ uint8_t nRF24_GetStatus_RXFIFO(void);
 uint8_t nRF24_GetStatus_TXFIFO(void);
 uint8_t nRF24_GetRXSource(void);
 uint8_t nRF24_GetRetransmitCounters(void);
+uint8_t nRF24_GetFeatures(void);
 
 void nRF24_ResetPLOS(void);
 void nRF24_FlushTX(void);
 void nRF24_FlushRX(void);
 void nRF24_ClearIRQFlags(void);
-
+void nRF24_ActivateFeatures(void);
 void nRF24_WritePayload(uint8_t *pBuf, uint8_t length);
 nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length);
+nRF24_RXResult nRF24_ReadPayloadDpl(uint8_t *pBuf, uint8_t *length);
 
 #define nRF24_RX_ON()   nRF24_CE_H();
 #define nRF24_RX_OFF()  nRF24_CE_L();
