@@ -9,7 +9,25 @@
 
 #define HEX_CHARS      "0123456789ABCDEF"
 
+#ifdef USE_HAL_DRIVER
+
+extern UART_HandleTypeDef huart2;
+
 void UART_SendChar(char b) {
+	HAL_UART_Transmit(&huart2, (uint8_t *) &b, 1, 200);
+}
+
+void UART_SendStr(char *string) {
+	HAL_UART_Transmit(&huart2, (uint8_t *) string, (uint16_t) strlen(string), 200);
+}
+
+void Toggle_LED() {
+	HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+}
+#else //USE_HAL_DRIVER
+
+void UART_SendChar(char b) {
+
 	while(!LL_USART_IsActiveFlag_TXE(USART2)){};
 	LL_USART_TransmitData8(USART2, (uint8_t) b);
 }
@@ -20,6 +38,11 @@ void UART_SendStr(char *string) {
 		UART_SendChar(* string);
 	}
 }
+void Toggle_LED() {
+	LL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+}
+
+#endif
 
 void UART_SendBufHex(char *buf, uint16_t bufsize) {
 	uint16_t i;
@@ -170,7 +193,7 @@ int runRadio(void) {
 	if (!nRF24_Check()) {
 		UART_SendStr("FAIL\r\n");
 		while (1){
-			LL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+			Toggle_LED();
 			Delay_ms(50);
 		};
 	}
@@ -834,7 +857,7 @@ int runRadio(void) {
 
     	// Wait ~0.5s
     	Delay_ms(500);
-    	LL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
+		Toggle_LED();
     }
 #pragma clang diagnostic pop
 

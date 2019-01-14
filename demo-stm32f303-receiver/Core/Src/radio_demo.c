@@ -9,16 +9,40 @@
 
 #define HEX_CHARS      "0123456789ABCDEF"
 
+#ifdef USE_HAL_DRIVER
+
+extern UART_HandleTypeDef huart2;
+
 void UART_SendChar(char b) {
-    while (!LL_USART_IsActiveFlag_TXE(USART2)) {};
-    LL_USART_TransmitData8(USART2, (uint8_t) b);
+    HAL_UART_Transmit(&huart2, (uint8_t *) &b, 1, 200);
 }
 
 void UART_SendStr(char *string) {
-    for (; (*string) != 0; string++) {
-        UART_SendChar(*string);
-    }
+    HAL_UART_Transmit(&huart2, (uint8_t *) string, (uint16_t) strlen(string), 200);
 }
+
+void Toggle_LED() {
+    HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+}
+#else //USE_HAL_DRIVER
+
+void UART_SendChar(char b) {
+
+	while(!LL_USART_IsActiveFlag_TXE(USART2)){};
+	LL_USART_TransmitData8(USART2, (uint8_t) b);
+}
+
+void UART_SendStr(char *string) {
+	for(;(*string) != 0;string++)
+	{
+		UART_SendChar(* string);
+	}
+}
+void Toggle_LED() {
+	LL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
+}
+
+#endif
 
 void UART_SendBufHex(char *buf, uint16_t bufsize) {
     uint16_t i;
@@ -173,9 +197,9 @@ int runRadio(void) {
     if (!nRF24_Check()) {
         UART_SendStr("FAIL\r\n");
         while (1) {
-            LL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-            LL_mDelay(50);
-        };
+            Toggle_LED();
+            Delay_ms(50);
+        }
     }
 #pragma clang diagnostic pop
     UART_SendStr("OK\r\n");
@@ -730,7 +754,7 @@ int runRadio(void) {
             UART_SendStr("RCV PIPE#");
             UART_SendInt(pipe);
             UART_SendStr(" PAYLOAD:>");
-            LL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+            Toggle_LED();
             UART_SendBufHex((char *) nRF24_payload, payload_length);
             UART_SendStr("<\r\n");
         }
