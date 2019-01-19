@@ -804,7 +804,10 @@ int runRadio(void) {
     // Enable DPL
     nRF24_SetDynamicPayloadLength(nRF24_DPL_ON);
 
-    // Put the transceiver to the RX mode
+    nRF24_SetPayloadWithAck(1);
+
+
+        // Put the transceiver to the RX mode
     nRF24_CE_H();
 
 
@@ -821,6 +824,9 @@ int runRadio(void) {
         if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) {
             // Get a payload from the transceiver
             pipe = nRF24_ReadPayloadDpl(nRF24_payload, &payload_length);
+            if(payload_length > 0) {
+                nRF24_WriteAckPayload(pipe, "aCk PaYlOaD",11);
+            }
 
             // Clear all pending IRQ flags
             nRF24_ClearIRQFlags();

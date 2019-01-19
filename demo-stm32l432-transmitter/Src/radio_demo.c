@@ -994,8 +994,10 @@ int runRadio(void) {
 
     // Enable DPL
     nRF24_SetDynamicPayloadLength(nRF24_DPL_ON);
+	nRF24_SetPayloadWithAck(1);
 
-    // Wake the transceiver
+
+	// Wake the transceiver
     nRF24_SetPowerMode(nRF24_PWR_UP);
 
 
@@ -1029,6 +1031,7 @@ int runRadio(void) {
     	// Transmit a packet
     	tx_res = nRF24_TransmitPacket(nRF24_payload, payload_length);
 		otx = nRF24_GetRetransmitCounters();
+		nRF24_ReadPayloadDpl(nRF24_payload, &payload_length );
 		otx_plos_cnt = (otx & nRF24_MASK_PLOS_CNT) >> 4; // packets lost counter
 		otx_arc_cnt  = (otx & nRF24_MASK_ARC_CNT); // auto retransmissions counter
     	switch (tx_res) {
@@ -1047,7 +1050,9 @@ int runRadio(void) {
 				UART_SendStr("ERROR");
 				break;
 		}
-    	UART_SendStr("   ARC=");
+		UART_SendStr("   ACK_PAYLOAD=>");
+    	UART_SendBufHex((char *) nRF24_payload, payload_length);
+    	UART_SendStr("<   ARC=");
 		UART_SendInt(otx_arc_cnt);
 		UART_SendStr(" LOST=");
 		UART_SendInt(packets_lost);

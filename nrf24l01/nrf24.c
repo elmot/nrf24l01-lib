@@ -167,6 +167,19 @@ void nRF24_SetDynamicPayloadLength(uint8_t mode) {
 	}
 }
 
+// Enables Payload With Ack. NB Refer to the datasheet for proper retransmit timing.
+// input:
+//   mode - status, 1 or 0
+void nRF24_SetPayloadWithAck(uint8_t mode) {
+	uint8_t reg;
+	reg  = nRF24_ReadReg(nRF24_REG_FEATURE);
+	if(mode) {
+		nRF24_WriteReg(nRF24_REG_FEATURE, reg | nRF24_FEATURE_EN_ACK_PAY);
+	} else {
+		nRF24_WriteReg(nRF24_REG_FEATURE, reg &~ nRF24_FEATURE_EN_ACK_PAY);
+	}
+}
+
 // Configure transceiver CRC scheme
 // input:
 //   scheme - CRC scheme, one of nRF24_CRC_xx values
@@ -487,6 +500,15 @@ void nRF24_ActivateFeatures() {
     nRF24_LL_RW(nRF24_CMD_ACTIVATE);
     nRF24_LL_RW(0x73);
     nRF24_CSN_H();
+}
+void nRF24_WriteAckPayload(nRF24_RXResult pipe, char *payload, uint8_t length) {
+	nRF24_CSN_L();
+	nRF24_LL_RW(nRF24_CMD_W_ACK_PAYLOAD | pipe);
+	while (length--) {
+		nRF24_LL_RW((uint8_t) *payload++);
+	}
+	nRF24_CSN_H();
+
 }
 
 /*

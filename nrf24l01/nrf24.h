@@ -13,7 +13,7 @@
 #define nRF24_CMD_R_RX_PL_WID	   (uint8_t)0x60 // Read RX-payload width for the top R_RX_PAYLOAD in the RX FIFO.
 #define nRF24_CMD_R_RX_PAYLOAD     (uint8_t)0x61 // Read RX payload
 #define nRF24_CMD_W_TX_PAYLOAD     (uint8_t)0xA0 // Write TX payload
-#define nRF24_CMD_W_ACK_PAYLOAD    (uint8_t)0xA1 // Write ACK payload
+#define nRF24_CMD_W_ACK_PAYLOAD    (uint8_t)0xA8 // Write ACK payload
 #define nRF24_CMD_W_TX_PAYLOAD_NOACK (uint8_t) 0xB0//Write TX payload and disable AUTOACK
 #define nRF24_CMD_FLUSH_TX         (uint8_t)0xE1 // Flush TX FIFO
 #define nRF24_CMD_FLUSH_RX         (uint8_t)0xE2 // Flush RX FIFO
@@ -224,6 +224,7 @@ void nRF24_ClosePipe(uint8_t pipe);
 void nRF24_EnableAA(uint8_t pipe);
 void nRF24_DisableAA(uint8_t pipe);
 void nRF24_SetDynamicPayloadLength(uint8_t mode);
+void nRF24_SetPayloadWithAck(uint8_t mode);
 
 uint8_t nRF24_GetStatus(void);
 uint8_t nRF24_GetIRQFlags(void);
@@ -239,6 +240,7 @@ void nRF24_FlushRX(void);
 void nRF24_ClearIRQFlags(void);
 void nRF24_ActivateFeatures(void);
 void nRF24_WritePayload(uint8_t *pBuf, uint8_t length);
+void nRF24_WriteAckPayload(nRF24_RXResult pipe, char *payload, uint8_t length);
 nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length);
 nRF24_RXResult nRF24_ReadPayloadDpl(uint8_t *pBuf, uint8_t *length);
 
