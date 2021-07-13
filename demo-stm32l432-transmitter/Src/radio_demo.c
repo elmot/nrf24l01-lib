@@ -882,9 +882,6 @@ int runRadio(void) {
     // Clear any pending IRQ flags
     nRF24_ClearIRQFlags();
 
-    // Enable DPL
-    nRF24_SetDynamicPayloadLength(nRF24_DPL_ON);
-
     // Wake the transceiver
     nRF24_SetPowerMode(nRF24_PWR_UP);
 
